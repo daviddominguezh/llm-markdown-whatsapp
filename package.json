@@ -1,9 +1,32 @@
 {
-  "name": "llm-markdown-whatsapp",
+  "name": "@daviddh/llm-markdown-whatsapp",
   "version": "0.0.1",
   "private": true,
   "description": "Transforms Markdown into WhatsApp text format monorepo",
+  "keywords": [
+    "llm",
+    "whatsapp",
+    "markdown",
+    "formatter",
+    "styling",
+    "utils",
+    "strs",
+    "strings",
+    "converter",
+    "transformer"
+  ],
+  "homepage": "https://github.com/daviddominguezh/llm-markdown-whatsapp#readme",
+  "bugs": {
+    "url": "https://github.com/daviddominguezh/llm-markdown-whatsapp/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daviddominguezh/llm-markdown-whatsapp.git"
+  },
+  "license": "MIT",
+  "author": "David Dominguez",
   "type": "module",
+  "main": "jest.config.js",
   "workspaces": [
     "packages/*"
   ],
@@ -17,6 +40,7 @@
     "test": "npm run test --workspaces --if-present",
     "test:core": "npm run test -w @llm-markdown-whatsapp/core"
   },
+
   "devDependencies": {
     "@eslint/js": "^9.28.0",
     "@trivago/prettier-plugin-sort-imports": "^5.2.2",
