@@ -159,10 +159,10 @@ The library applies processors in priority order. The first processor that finds
 | -------------------------- | ------------------------------------------------------------------------------------ |
 | **URLs**                   | `https://example.com/path`, `www.site.com`                                           |
 | **Plain Domains**          | `Nike.com.co`, `shop.example.co.uk`                                                  |
-| **Emails**                 | `juan.perez@gmail.com`                                                               |
+| **Emails**                 | `john.perez@gmail.com`                                                               |
 | **Formatted Numbers**      | `$1.000.000`, `2.5.1`, `15.5`                                                       |
 | **Abbreviations**          | `etc.`, `Dr.`, `D.C.`, `S.A.`, `E.U.A.`                                             |
-| **Parenthetical Expressions** | `(calle, número, referencia, etc.)`                                               |
+| **Parenthetical Expressions** | `(street, number, ref, etc.)`                                               |
 | **Bullet Point Content**   | Content within `- item` or `• item` lines                                            |
 
 ### Post-processing
