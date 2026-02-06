@@ -1,7 +1,7 @@
 {
   "name": "@daviddh/llm-markdown-whatsapp",
   "version": "0.0.1",
-  "private": true,
+  "private": false,
   "description": "Transforms Markdown into WhatsApp text format monorepo",
   "keywords": [
     "llm",

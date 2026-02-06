@@ -134,3 +134,40 @@ describe('Position helpers - unbalanced close paren', () => {
     expect(hasContent).toBe(true);
   });
 });
+
+describe('Product card - inline question in last card', () => {
+  test('should extract inline question embedded in last card line', () => {
+    const input =
+      'Encontré opciones:\n\n' +
+      '1. 🛍️ Zapatillas Nike Air: 💵 $500.000\n📏 Talla: 40, 41.\n' +
+      '✅ Son ideales para running y deporte ¿Te gustan estas zapatillas?';
+    const result = splitChatText(input);
+    const hasQuestion = result.some((chunk) => chunk.includes('¿Te gustan estas zapatillas?'));
+    expect(hasQuestion).toBe(true);
+    const hasCard = result.some((chunk) => chunk.includes('Zapatillas Nike Air'));
+    expect(hasCard).toBe(true);
+  });
+});
+
+describe('Paragraph processor - short first paragraph with long second', () => {
+  test('should process intro with short and long paragraphs after colon', () => {
+    const input =
+      'Detalles:\nCorto.\n' +
+      'Este es un párrafo muy largo con más de ciento cincuenta caracteres que describe todos los detalles' +
+      ' del producto incluyendo materiales, dimensiones y disponibilidad en stock actual en la tienda.';
+    const result = splitChatText(input);
+    const hasIntro = result.some((chunk) => chunk.includes('Detalles:'));
+    expect(hasIntro).toBe(true);
+    const hasLongParagraph = result.some((chunk) => chunk.includes('párrafo muy largo'));
+    expect(hasLongParagraph).toBe(true);
+  });
+});
+
+describe('Sections - numbered list with bullet sub-items', () => {
+  test('should handle bullet items within numbered list', () => {
+    const input = '1. Opción primera disponible\n- Sub opción A\n- Sub opción B\n2. Opción segunda';
+    const result = splitChatText(input);
+    const hasList = result.some((chunk) => chunk.includes('1. Opción primera'));
+    expect(hasList).toBe(true);
+  });
+});
