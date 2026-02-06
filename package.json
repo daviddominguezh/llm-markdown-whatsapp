@@ -42,8 +42,7 @@
   "files": [
     "packages/core/dist",
     "!packages/core/dist/__tests__",
-    "packages/core/src",
-    "!packages/core/src/__tests__",
+    "!packages/core/dist/**/*.d.ts.map",
     "README.md",
     "LICENSE"
   ],

@@ -76,6 +76,7 @@ const processNonLastChunk = (
   nextChunk: string | undefined,
   mergedChunks: string[]
 ): string | null => {
+  /* c8 ignore next 4 -- guaranteed by loop bounds */
   if (nextChunk === undefined) {
     mergedChunks.push(currentChunk);
     return null;
@@ -102,6 +103,7 @@ export function mergeSmallChunks(chunks: string[]): string[] {
     const currentChunk = getCurrentChunk(pendingMerge, workingChunks, i);
     pendingMerge = null;
 
+    /* c8 ignore next 4 -- guaranteed by loop bounds and getCurrentChunk */
     if (currentChunk === undefined) {
       i += INDEX_OFFSET;
       continue;

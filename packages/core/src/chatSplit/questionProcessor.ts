@@ -277,6 +277,7 @@ export function processQuestionMarks(remainingText: string, chunks: string[]): S
   const [firstQuestionIdx] = questionIndices;
   const lastQuestionIdx = getLastElement(questionIndices);
 
+  /* c8 ignore next 3 -- guaranteed by length check above */
   if (firstQuestionIdx === undefined || lastQuestionIdx === undefined) {
     return { splitFound: false, newRemainingText: remainingText };
   }
