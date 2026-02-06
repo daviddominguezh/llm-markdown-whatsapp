@@ -32,7 +32,7 @@ Note: `NODE_OPTIONS='--experimental-vm-modules'` is required because the project
 
 ## Architecture
 
-**Monorepo structure:** npm workspaces with `packages/*`. Currently only `packages/core` (`@llm-markdown-whatsapp/core`) exists. The root `tsconfig.json` references additional packages (redis, e2e/*) that are not yet present.
+**Monorepo structure:** npm workspaces with `packages/*`. Currently only `packages/core` (`@daviddh/llm-markdown-whatsapp/core`) exists. The root `tsconfig.json` references additional packages (redis, e2e/*) that are not yet present.
 
 **Core package entry point:** `packages/core/src/index.ts` re-exports `splitChatText` from `packages/core/src/chatSplit/index.ts`, which re-exports from `splitChatText.ts`. This is the single public API function.
 

@@ -1,5 +1,5 @@
 {
-  "name": "@llm-markdown-whatsapp/core",
+  "name": "@daviddh/llm-markdown-whatsapp",
   "version": "1.0.0",
   "description": "Transforms Markdown into WhatsApp text format",
   "main": "dist/index.js",
