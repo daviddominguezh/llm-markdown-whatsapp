@@ -17,6 +17,7 @@ export default {
   },
   testMatch: ['**/__tests__/**/*.test.ts'],
   collectCoverage: true,
+  coverageProvider: 'v8',
   coverageDirectory: 'coverage',
   coverageReporters: ['text', 'lcov', 'html'],
   coveragePathIgnorePatterns: ['/node_modules/', '/__tests__/'],
