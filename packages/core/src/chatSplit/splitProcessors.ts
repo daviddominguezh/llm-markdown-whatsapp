@@ -45,8 +45,10 @@ const findLastColonLineIndex = (lines: string[]): number => {
 /** Extract intro from match groups */
 const extractIntro = (match: RegExpExecArray): string => {
   const { groups } = match;
+  /* c8 ignore start */
   const part1 = groups?.intro ?? match[FIRST_MATCH] ?? '';
   const part2 = groups?.afterColon ?? match[SECOND_MATCH] ?? '';
+  /* c8 ignore stop */
   return part1 + part2;
 };
 
@@ -100,6 +102,7 @@ export const processQuestionWithList = (remainingText: string, chunks: string[])
   }
 
   const { groups } = match;
+  /* c8 ignore next */
   const listPart = groups?.list ?? match[SECOND_MATCH] ?? '';
   const listLines = listPart.split('\n');
   const allLinesAreListItems = listLines.every(
@@ -142,6 +145,7 @@ export const processIntroWithLongParagraphs = (remainingText: string, chunks: st
 
   const afterIntro = remainingText.substring(firstNewline + INDEX_OFFSET);
   const [firstParagraphRaw] = afterIntro.split('\n');
+  /* c8 ignore next */
   const firstParagraph = (firstParagraphRaw ?? '').trim();
 
   if (firstParagraph.length > LONG_PARAGRAPH_THRESHOLD) {

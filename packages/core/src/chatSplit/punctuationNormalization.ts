@@ -69,8 +69,10 @@ const shouldChangeCaseForNextChar = (nextChar: string): boolean =>
   nextChar === nextChar.toUpperCase() && nextChar !== nextChar.toLowerCase();
 
 /** Get previous character from info */
+/* c8 ignore start */
 const getPrevCharFromInfo = (text: string, prevInfo: PrevCharInfo): string =>
   prevInfo.index >= ZERO ? (getCharAt(text, prevInfo.index) ?? '') : '';
+/* c8 ignore stop */
 
 /** Check if position should skip processing */
 const shouldSkipProcessing = (

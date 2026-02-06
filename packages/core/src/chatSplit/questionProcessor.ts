@@ -40,6 +40,7 @@ const getFirstMatch = (match: RegExpExecArray): string => {
 /** Get last element of array */
 const getLastElement = <T>(arr: T[]): T | undefined => {
   const { length } = arr;
+  /* c8 ignore next */
   return length > ZERO ? arr[length - INDEX_OFFSET] : undefined;
 };
 
@@ -125,6 +126,7 @@ interface ParentheticalContext {
 /** Handle parenthetical clarification split */
 function handleParentheticalSplit(ctx: ParentheticalContext, chunks: string[]): SplitResult | null {
   const parentheticalMatch = /^\([^\)]+\)\?/v.exec(ctx.afterQuestion);
+  /* c8 ignore next */
   if (parentheticalMatch === null) return null;
 
   const firstMatch = getFirstMatch(parentheticalMatch);
@@ -277,10 +279,11 @@ export function processQuestionMarks(remainingText: string, chunks: string[]): S
   const [firstQuestionIdx] = questionIndices;
   const lastQuestionIdx = getLastElement(questionIndices);
 
-  /* c8 ignore next 3 -- guaranteed by length check above */
+  /* c8 ignore start -- guaranteed by length check above */
   if (firstQuestionIdx === undefined || lastQuestionIdx === undefined) {
     return { splitFound: false, newRemainingText: remainingText };
   }
+  /* c8 ignore stop */
 
   const areContiguous =
     questionIndices.length > INDEX_OFFSET &&

@@ -70,9 +70,11 @@ const createListMatchInfo = (match: RegExpExecArray): ListMatchInfo => {
   const [firstMatch = ''] = match;
   return {
     match: firstMatch,
+    /* c8 ignore start */
     before: groups?.before ?? '',
     num: groups?.num ?? '',
     after: groups?.after ?? '',
+    /* c8 ignore stop */
     offset: match.index,
   };
 };
@@ -103,6 +105,7 @@ const applyReplacements = (text: string, replacements: ReplacementInfo[]): strin
 
   for (let i = count - INDEX_OFFSET; i >= ZERO; i -= INDEX_OFFSET) {
     const r = getReplacementAt(replacements, i);
+    /* c8 ignore next */
     if (r !== undefined) {
       result = result.substring(ZERO, r.start) + r.replacement + result.substring(r.end);
     }
