@@ -5,17 +5,13 @@
   </p>
 </p>
 
-<p align="center">
-  <a href="https://www.typescriptlang.org/">
-    <img src="https://img.shields.io/badge/TypeScript-5.0+-3178C6?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript">
-  </a>
-  <a href="https://nodejs.org/">
-    <img src="https://img.shields.io/badge/Node.js-18+-339933?style=flat-square&logo=node.js&logoColor=white" alt="Node.js">
-  </a>
-  <a href="https://opensource.org/licenses/MIT">
-    <img src="https://img.shields.io/badge/License-MIT-yellow?style=flat-square" alt="License: MIT">
-  </a>
-</p>
+<div align="center">
+
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-18+-339933?style=flat-square&logo=node.js&logoColor=white)](https://nodejs.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](https://opensource.org/licenses/MIT)
+
+</div>
 
 <p align="center">
   <a href="#the-problem">Problem</a> •
