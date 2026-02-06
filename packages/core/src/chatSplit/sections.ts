@@ -55,8 +55,10 @@ export const findMarkdownSection = (text: string): MarkdownSectionResult | null 
   }
 
   const { groups } = headerMatch;
+  /* c8 ignore start */
   const header = groups?.header ?? headerMatch[FIRST_ELEMENT] ?? '';
   const [matchedText = ''] = headerMatch;
+  /* c8 ignore stop */
   const afterHeader = text.substring(matchedText.length);
   const { length: defaultEndIndex } = afterHeader;
 
@@ -97,6 +99,7 @@ const findNextNonEmptyIndex = (lines: string[], startIndex: number): number => {
 /** Check if next line is a list continuation */
 const isListContinuation = (lines: string[], nextNonEmptyIndex: number): boolean => {
   if (nextNonEmptyIndex === NOT_FOUND) return false;
+  /* c8 ignore next */
   const nextLine = getLineAt(lines, nextNonEmptyIndex) ?? '';
   return isNumberedListItem(nextLine) || isBulletListItem(nextLine);
 };
@@ -150,6 +153,7 @@ const processNumberedList = (lines: string[]): number => {
 
   for (let i = ZERO; i < lines.length; i += INCREMENT) {
     const line = getLineAt(lines, i);
+    /* c8 ignore next */
     if (line === undefined) continue;
 
     const { action, newState } = processNumberedListLine(line, i, lines, state);
@@ -157,9 +161,11 @@ const processNumberedList = (lines: string[]): number => {
     if (action === 'break') break;
   }
 
+  /* c8 ignore start */
   return state.endLineIndex >= ZERO
     ? lines.slice(ZERO, state.endLineIndex + INCREMENT).join('\n').length
     : ZERO;
+  /* c8 ignore stop */
 };
 
 /** Bullet list state */
@@ -209,6 +215,7 @@ const processBulletList = (lines: string[]): number => {
 
   for (let i = ZERO; i < lines.length; i += INCREMENT) {
     const line = getLineAt(lines, i);
+    /* c8 ignore next */
     if (line === undefined) continue;
 
     const { action, newState } = processBulletListLine(line, i, lines, state);

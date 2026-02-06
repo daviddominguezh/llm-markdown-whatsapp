@@ -65,13 +65,13 @@ The library takes a markdown string and splits it into an array of smaller chunk
 ## Quickstart
 
 ```bash
-npm install @llm-markdown-whatsapp/core
+npm install @llm-markdown-whatsapp
 ```
 
 ### Basic Usage
 
 ```typescript
-import { splitChatText } from '@llm-markdown-whatsapp/core';
+import { splitChatText } from '@llm-markdown-whatsapp';
 
 const llmResponse = 'Thanks for reaching out. I understand your situation and I want to help you resolve it in the best way possible. You can send your product back at no extra cost. Would you prefer a full refund or an exchange for a different model?';
 
@@ -159,10 +159,10 @@ The library applies processors in priority order. The first processor that finds
 | -------------------------- | ------------------------------------------------------------------------------------ |
 | **URLs**                   | `https://example.com/path`, `www.site.com`                                           |
 | **Plain Domains**          | `Nike.com.co`, `shop.example.co.uk`                                                  |
-| **Emails**                 | `juan.perez@gmail.com`                                                               |
+| **Emails**                 | `john.perez@gmail.com`                                                               |
 | **Formatted Numbers**      | `$1.000.000`, `2.5.1`, `15.5`                                                       |
 | **Abbreviations**          | `etc.`, `Dr.`, `D.C.`, `S.A.`, `E.U.A.`                                             |
-| **Parenthetical Expressions** | `(calle, número, referencia, etc.)`                                               |
+| **Parenthetical Expressions** | `(street, number, ref, etc.)`                                               |
 | **Bullet Point Content**   | Content within `- item` or `• item` lines                                            |
 
 ### Post-processing
@@ -187,7 +187,7 @@ Splits a markdown text string into an array of chat-ready chunks.
 - Returns `[]` for `null`, `undefined`, or empty string.
 
 ```typescript
-import { splitChatText } from '@llm-markdown-whatsapp/core';
+import { splitChatText } from '@llm-markdown-whatsapp';
 
 const chunks = splitChatText(llmMarkdownText);
 ```

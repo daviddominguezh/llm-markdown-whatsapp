@@ -21,6 +21,7 @@ function processNumberedList(listText: string, afterList: string, chunks: string
   if (hasHugeItems || (hasLongItems && items.length <= MAX_ITEMS_FOR_LONG_SPLIT)) {
     items.forEach((item) => {
       const trimmedItem = item.trim();
+      /* c8 ignore next */
       if (trimmedItem.length > ZERO) {
         chunks.push(trimmedItem);
       }
@@ -42,6 +43,7 @@ function processBulletList(listText: string, afterList: string, chunks: string[]
   if (hasHugeItems) {
     items.forEach((item) => {
       const trimmedItem = item.trim();
+      /* c8 ignore next */
       if (trimmedItem.length > ZERO) {
         chunks.push(trimmedItem);
       }

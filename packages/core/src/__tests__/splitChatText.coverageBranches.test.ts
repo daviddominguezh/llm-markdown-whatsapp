@@ -48,3 +48,25 @@ describe('Product card - markdown pattern without valid first match', () => {
     expect(hasProduct).toBe(true);
   });
 });
+
+describe('Markdown section - no double newline after header content', () => {
+  test('should include all content after header when no double newline exists', () => {
+    const input =
+      '*Información del producto*\nEste producto cuenta con características especiales que lo hacen único en su categoría de artículos deportivos disponibles.\nOtra línea con más detalles importantes sobre el producto aquí.';
+    const result = splitChatText(input);
+    const hasHeader = result.some((chunk) => chunk.includes('*Información del producto*'));
+    expect(hasHeader).toBe(true);
+  });
+});
+
+describe('Markdown section - bullet list after double newline', () => {
+  test('should keep bullet list within section when preceded by double newline', () => {
+    const input =
+      '*Detalles importantes*\nContenido extenso del producto que incluye muchas características y especificaciones técnicas relevantes\n\n- Característica especial del producto';
+    const result = splitChatText(input);
+    const hasSection = result.some(
+      (chunk) => chunk.includes('*Detalles importantes*') && chunk.includes('Característica especial')
+    );
+    expect(hasSection).toBe(true);
+  });
+});

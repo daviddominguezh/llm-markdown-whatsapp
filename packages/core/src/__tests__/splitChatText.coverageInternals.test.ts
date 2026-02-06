@@ -1,5 +1,6 @@
 import { describe, expect, test } from '@jest/globals';
 
+import { normalizeInlineNumberedList } from '../chatSplit/listNormalization.js';
 import { mergeSmallChunks } from '../chatSplit/mergeProcessor.js';
 import { isPositionInBulletLine, isPositionInsideParentheses } from '../chatSplit/positionHelpers.js';
 import { normalizeSpanishPunctuation } from '../chatSplit/punctuationNormalization.js';
@@ -9,7 +10,12 @@ import {
   processContiguousQuestions,
 } from '../chatSplit/questionProcessor.js';
 import { findListSection } from '../chatSplit/sections.js';
-import { findPositionAfterEmoji } from '../chatSplit/textHelpers.js';
+import {
+  findPositionAfterEmoji,
+  isParentheticalClarification,
+  startsWithEmoji,
+  startsWithLowercase,
+} from '../chatSplit/textHelpers.js';
 
 const FIRST_ELEMENT = 0;
 const ZERO = 0;
@@ -128,5 +134,76 @@ describe('processContiguousQuestions - digit-as-emoji after questions', () => {
     const result = processContiguousQuestions(input, chunks, lastQuestionIdx);
     expect(result.splitFound).toBe(false);
     expect(chunks).toHaveLength(ZERO);
+  });
+});
+
+describe('textHelpers - empty string edge cases', () => {
+  test('isParentheticalClarification returns false for empty string', () => {
+    expect(isParentheticalClarification('')).toBe(false);
+  });
+
+  test('startsWithEmoji returns false for empty string', () => {
+    expect(startsWithEmoji('')).toBe(false);
+  });
+
+  test('startsWithLowercase returns false for empty string', () => {
+    expect(startsWithLowercase('')).toBe(false);
+  });
+
+  test('findPositionAfterEmoji returns zero for empty string', () => {
+    expect(findPositionAfterEmoji('')).toBe(ZERO);
+  });
+});
+
+describe('normalizeInlineNumberedList - isPrecededByDigit branches', () => {
+  test('should handle match at text start (offset zero)', () => {
+    const input = ':1. Primer elemento disponible 2. Segundo elemento disponible';
+    const result = normalizeInlineNumberedList(input);
+    expect(result).toContain('\n1.');
+  });
+
+  test('should skip normalization when preceded by digit', () => {
+    const input = 'Datos: v1 2. Email actual 3. Cédula oficial';
+    const result = normalizeInlineNumberedList(input);
+    expect(result).toContain('v1 2.');
+  });
+});
+
+describe('processContiguousQuestions - no space after last question mark', () => {
+  test('should handle no space before text content', () => {
+    const chunks: string[] = [];
+    const input = '¿Te gusta?¿Lo quieres?Texto después con más información';
+    const lastQuestionIdx = input.lastIndexOf('?');
+    const result = processContiguousQuestions(input, chunks, lastQuestionIdx);
+    expect(result.splitFound).toBe(true);
+  });
+
+  test('should handle no space before emoji with text', () => {
+    const chunks: string[] = [];
+    const input = '¿Te gusta?¿Lo quieres?😊 Texto después de los emojis';
+    const lastQuestionIdx = input.lastIndexOf('?');
+    const result = processContiguousQuestions(input, chunks, lastQuestionIdx);
+    expect(result.splitFound).toBe(true);
+  });
+});
+
+describe('findListSection - numbered list with empty line then non-list text', () => {
+  test('should end list when empty line is followed by regular text', () => {
+    const text = '1. Primera opción\n2. Segunda opción\n\nTexto regular aquí';
+    const result = findListSection(text);
+    expect(result).not.toBeNull();
+    expect(result?.type).toBe('numbered');
+    const listText = text.substring(result?.start ?? ZERO, result?.end ?? ZERO);
+    expect(listText).not.toContain('Texto regular');
+  });
+
+  test('should continue list when empty line is followed by another list item', () => {
+    const text = '1. Primera opción\n\n2. Segunda opción\n3. Tercera opción';
+    const result = findListSection(text);
+    expect(result).not.toBeNull();
+    expect(result?.type).toBe('numbered');
+    const listText = text.substring(result?.start ?? ZERO, result?.end ?? ZERO);
+    expect(listText).toContain('Segunda opción');
+    expect(listText).toContain('Tercera opción');
   });
 });
