@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "compilerOptions": {
+    "target": "ES2024",
+    "lib": ["ES2024"],
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "isolatedModules": true,
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "types": ["node", "jest"]
+  },
+  "references": [
+    { "path": "./packages/core" },
+    { "path": "./packages/redis" },
+    { "path": "./packages/e2e/proxy" },
+    { "path": "./packages/e2e/serverInstance" },
+    { "path": "./packages/e2e/testResults" },
+    { "path": "./packages/e2e/testRunner" }
+  ],
+  "files": []
+}

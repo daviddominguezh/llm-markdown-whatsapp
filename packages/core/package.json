@@ -1,0 +1,38 @@
+{
+  "name": "@llm-markdown-whatsapp/core",
+  "version": "1.0.0",
+  "description": "Transforms Markdown into WhatsApp text format",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "rm -rf dist tsconfig*.tsbuildinfo && tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json",
+    "typecheck": "tsc -b",
+    "test": "NODE_OPTIONS='--experimental-vm-modules' npx jest",
+    "test:watch": "NODE_OPTIONS='--experimental-vm-modules' npx jest --watch"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "keywords": [
+    "whatsapp",
+    "markdown",
+    "converted",
+    "llm",
+    "anthropic",
+    "gpt",
+    "claude",
+    "api"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
