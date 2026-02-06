@@ -11,11 +11,7 @@ const ZERO = 0;
 /**
  * Processes numbered list items
  */
-function processNumberedList(
-  listText: string,
-  afterList: string,
-  chunks: string[]
-): SplitResult {
+function processNumberedList(listText: string, afterList: string, chunks: string[]): SplitResult {
   const items = listText.split(/\n(?=\d{1,2}\.\s+)/v).filter((item) => item.trim().length > ZERO);
 
   const hasHugeItems = items.some((item) => item.length > HUGE_ITEM_LENGTH);
@@ -39,11 +35,7 @@ function processNumberedList(
 /**
  * Processes bullet list items
  */
-function processBulletList(
-  listText: string,
-  afterList: string,
-  chunks: string[]
-): SplitResult {
+function processBulletList(listText: string, afterList: string, chunks: string[]): SplitResult {
   const items = listText.split(/\n(?=[\-•]\s+)/v).filter((item) => item.trim().length > ZERO);
   const hasHugeItems = items.some((item) => item.length > HUGE_ITEM_LENGTH);
 

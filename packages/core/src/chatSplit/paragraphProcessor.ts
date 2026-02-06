@@ -1,6 +1,6 @@
 import { FIRST_NEWLINE_SEARCH_LIMIT, INDEX_OFFSET } from './constants.js';
 import { findMarkdownSection } from './sections.js';
-import { hasQuestionWithOptionsPattern, type SplitResult } from './splitProcessors.js';
+import { type SplitResult, hasQuestionWithOptionsPattern } from './splitProcessors.js';
 
 /** Long paragraph threshold */
 const LONG_PARAGRAPH_THRESHOLD = 150;
@@ -30,7 +30,10 @@ export function processLongParagraphsAfterIntro(remainingText: string, chunks: s
   const afterIntro = remainingText.substring(firstNewline + INDEX_OFFSET);
   const paragraphs = afterIntro.split('\n').filter((p) => p.trim().length > ZERO);
 
-  if (paragraphs.length >= MIN_LIST_ITEMS_FOR_OPTIONS && paragraphs.some((p) => p.length > LONG_PARAGRAPH_THRESHOLD)) {
+  if (
+    paragraphs.length >= MIN_LIST_ITEMS_FOR_OPTIONS &&
+    paragraphs.some((p) => p.length > LONG_PARAGRAPH_THRESHOLD)
+  ) {
     chunks.push(firstLine.trim());
     return { splitFound: true, newRemainingText: afterIntro };
   }
@@ -73,7 +76,10 @@ export function processMarkdownSection(remainingText: string, chunks: string[]):
 
   if (markdownSection !== null) {
     chunks.push(markdownSection.fullSection.trim());
-    return { splitFound: true, newRemainingText: remainingText.substring(markdownSection.fullSection.length).trim() };
+    return {
+      splitFound: true,
+      newRemainingText: remainingText.substring(markdownSection.fullSection.length).trim(),
+    };
   }
 
   return { splitFound: false, newRemainingText: remainingText };

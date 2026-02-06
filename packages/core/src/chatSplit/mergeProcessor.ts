@@ -1,4 +1,4 @@
-import { MIN_CHUNK_SIZE, INDEX_OFFSET } from './constants.js';
+import { INDEX_OFFSET, MIN_CHUNK_SIZE } from './constants.js';
 
 /** Long paragraph threshold */
 const LONG_PARAGRAPH_THRESHOLD = 150;
@@ -22,7 +22,11 @@ const endsWithColon = (chunk: string): boolean => chunk.trim().endsWith(':');
 const isLongParagraph = (chunk: string): boolean => chunk.trim().length > LONG_PARAGRAPH_THRESHOLD;
 
 /** Checks if current chunk should be merged with next */
-const shouldMergeWithNext = (chunk: string, nextChunk: string, isLastChunk: boolean): { shouldMerge: boolean; skipToNext: boolean } => {
+const shouldMergeWithNext = (
+  chunk: string,
+  nextChunk: string,
+  isLastChunk: boolean
+): { shouldMerge: boolean; skipToNext: boolean } => {
   if (endsWithColon(chunk) && (startsWithList(nextChunk) || isLongParagraph(nextChunk))) {
     return { shouldMerge: false, skipToNext: false };
   }
@@ -48,7 +52,11 @@ const shouldMergeLastWithPrevious = (chunk: string, mergedChunksLength: number):
   chunk.trim().length < MIN_CHUNK_SIZE && mergedChunksLength > ZERO && !startsWithQuestion(chunk);
 
 /** Get current chunk from pending or working chunks */
-const getCurrentChunk = (pendingMerge: string | null, workingChunks: string[], index: number): string | undefined => {
+const getCurrentChunk = (
+  pendingMerge: string | null,
+  workingChunks: string[],
+  index: number
+): string | undefined => {
   if (pendingMerge !== null) return pendingMerge;
   return getChunkAt(workingChunks, index);
 };

@@ -1,20 +1,20 @@
 import {
-  SHORT_INTRO_THRESHOLD,
-  LONG_QUESTION_THRESHOLD,
   COMBINED_LENGTH_THRESHOLD,
   DOUBLE_NEWLINE_DISTANCE_THRESHOLD,
   INDEX_OFFSET,
+  LONG_QUESTION_THRESHOLD,
+  SHORT_INTRO_THRESHOLD,
 } from './constants.js';
-import {
-  smartTrim,
-  hasTextContent,
-  isParentheticalClarification,
-  startsWithEmoji,
-  startsWithLowercase,
-  findPositionAfterEmoji,
-} from './textHelpers.js';
 import { isPositionInBulletLine, isPositionInsideParentheses } from './positionHelpers.js';
 import type { SplitResult } from './splitProcessors.js';
+import {
+  findPositionAfterEmoji,
+  hasTextContent,
+  isParentheticalClarification,
+  smartTrim,
+  startsWithEmoji,
+  startsWithLowercase,
+} from './textHelpers.js';
 
 /** Contiguous questions text length threshold */
 const CONTIGUOUS_QUESTIONS_TEXT_THRESHOLD = 50;
@@ -173,7 +173,11 @@ function processSingleQuestion(remainingText: string, chunks: string[], question
 /**
  * Processes contiguous questions
  */
-function processContiguousQuestions(remainingText: string, chunks: string[], lastQuestionIdx: number): SplitResult {
+function processContiguousQuestions(
+  remainingText: string,
+  chunks: string[],
+  lastQuestionIdx: number
+): SplitResult {
   if (lastQuestionIdx >= remainingText.length - INDEX_OFFSET) {
     return { splitFound: false, newRemainingText: remainingText };
   }
@@ -281,7 +285,9 @@ export function processQuestionMarks(remainingText: string, chunks: string[]): S
     questionIndices.length > INDEX_OFFSET &&
     (() => {
       const textBetween = remainingText.substring(firstQuestionIdx + INDEX_OFFSET, lastQuestionIdx);
-      return !textBetween.includes('.') && smartTrim(textBetween).length < CONTIGUOUS_QUESTIONS_TEXT_THRESHOLD;
+      return (
+        !textBetween.includes('.') && smartTrim(textBetween).length < CONTIGUOUS_QUESTIONS_TEXT_THRESHOLD
+      );
     })();
 
   if (areContiguous) {

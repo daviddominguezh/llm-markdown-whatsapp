@@ -1,8 +1,8 @@
 import {
-  MAX_INTRO_LENGTH,
-  MAX_QUESTION_WITH_OPTIONS_LENGTH,
   FIRST_NEWLINE_SEARCH_LIMIT,
   INDEX_OFFSET,
+  MAX_INTRO_LENGTH,
+  MAX_QUESTION_WITH_OPTIONS_LENGTH,
 } from './constants.js';
 
 /** Long paragraph threshold */
@@ -70,7 +70,9 @@ const adjustIntroForResponsePrompt = (intro: string): string => {
  * Processes intro with list pattern and returns split info
  */
 export const processIntroWithList = (remainingText: string, chunks: string[]): SplitResult => {
-  const match = /^(?<intro>.+?:)(?<afterColon>[^\n]*?)\n+(?<listStart>\d{1,2}\.\s+|[\-•]\s+)/v.exec(remainingText);
+  const match = /^(?<intro>.+?:)(?<afterColon>[^\n]*?)\n+(?<listStart>\d{1,2}\.\s+|[\-•]\s+)/v.exec(
+    remainingText
+  );
 
   if (match === null) {
     return { splitFound: false, newRemainingText: remainingText };
@@ -100,7 +102,9 @@ export const processQuestionWithList = (remainingText: string, chunks: string[])
   const { groups } = match;
   const listPart = groups?.list ?? match[SECOND_MATCH] ?? '';
   const listLines = listPart.split('\n');
-  const allLinesAreListItems = listLines.every((line) => line.trim() === '' || /^\d{1,2}\.\s+/v.test(line.trim()));
+  const allLinesAreListItems = listLines.every(
+    (line) => line.trim() === '' || /^\d{1,2}\.\s+/v.test(line.trim())
+  );
   const { length: listItemCount } = listLines.filter((l) => /^\d{1,2}\.\s+/v.test(l.trim()));
 
   const shouldProcess =

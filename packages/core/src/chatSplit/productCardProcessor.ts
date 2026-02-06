@@ -14,7 +14,8 @@ interface QuestionMatch {
 }
 
 /** Find question line by startsWith */
-const findQuestionByStart = (lines: string[]): number => lines.findIndex((line) => line.trim().startsWith('¿'));
+const findQuestionByStart = (lines: string[]): number =>
+  lines.findIndex((line) => line.trim().startsWith('¿'));
 
 /** Get line at index */
 const getLineAt = (lines: string[], index: number): string | undefined => lines[index];
@@ -41,7 +42,10 @@ const findQuestionInLine = (lines: string[]): { index: number; match: QuestionMa
 };
 
 /** Extract content and question when question is in a separate line */
-const extractSeparateQuestion = (lines: string[], questionIndex: number): { cardContent: string; question: string } => ({
+const extractSeparateQuestion = (
+  lines: string[],
+  questionIndex: number
+): { cardContent: string; question: string } => ({
   cardContent: lines.slice(ZERO, questionIndex).join('\n').trim(),
   question: lines.slice(questionIndex).join(' ').trim(),
 });

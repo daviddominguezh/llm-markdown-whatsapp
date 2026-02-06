@@ -1,4 +1,4 @@
-import { MAX_LIST_NUMBER, INDEX_OFFSET } from './constants.js';
+import { INDEX_OFFSET, MAX_LIST_NUMBER } from './constants.js';
 
 /** Zero constant */
 const ZERO = 0;
@@ -27,8 +27,7 @@ const getReplacementAt = (replacements: ReplacementInfo[], index: number): Repla
   replacements[index];
 
 /** Check if text is already formatted */
-const isAlreadyFormatted = (text: string): boolean =>
-  /\d{1,2}\.\s+[^\n]+\n\s*\d{1,2}\.\s+/v.test(text);
+const isAlreadyFormatted = (text: string): boolean => /\d{1,2}\.\s+[^\n]+\n\s*\d{1,2}\.\s+/v.test(text);
 
 /** Check for inline list patterns */
 const hasInlineListPatterns = (text: string): boolean => {

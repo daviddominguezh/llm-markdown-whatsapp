@@ -1,6 +1,6 @@
 import { MIN_CONTENT_BEFORE_BREAK, SHORT_INTRO_THRESHOLD } from './constants.js';
+import { type SplitResult, hasQuestionWithOptionsPattern } from './splitProcessors.js';
 import { smartTrim } from './textHelpers.js';
-import { hasQuestionWithOptionsPattern, type SplitResult } from './splitProcessors.js';
 
 /** Long paragraph threshold */
 const LONG_PARAGRAPH_THRESHOLD = 150;
@@ -37,11 +37,18 @@ const startsWithBullet = (text: string): boolean => /^[\-•]\s+/v.test(text.tri
 /** Check if before part has long paragraphs */
 const hasLongParagraphsInBefore = (beforeBreak: string): boolean => {
   const paragraphs = beforeBreak.split('\n').filter((p) => p.trim().length > ZERO);
-  return paragraphs.length >= MIN_LIST_ITEMS_FOR_OPTIONS && paragraphs.some((p) => p.length > LONG_PARAGRAPH_THRESHOLD);
+  return (
+    paragraphs.length >= MIN_LIST_ITEMS_FOR_OPTIONS &&
+    paragraphs.some((p) => p.length > LONG_PARAGRAPH_THRESHOLD)
+  );
 };
 
 /** Check if before ends with question and has short intro pattern */
-const isQuestionWithShortIntroBullets = (beforeBreak: string, firstLine: string, afterBreak: string): boolean =>
+const isQuestionWithShortIntroBullets = (
+  beforeBreak: string,
+  firstLine: string,
+  afterBreak: string
+): boolean =>
   beforeBreak.trim().endsWith('?') &&
   firstLine.trim().length < SHORT_INTRO_THRESHOLD &&
   firstLine.trim().endsWith(':') &&
@@ -50,7 +57,8 @@ const isQuestionWithShortIntroBullets = (beforeBreak: string, firstLine: string,
 /** Check if before ends with response prompt and after starts with bullets */
 const isResponsePromptWithBullets = (beforeBreak: string, afterBreakStartsWithBullets: boolean): boolean => {
   const trimmed = beforeBreak.trim();
-  const endsWithPrompt = trimmed.endsWith('Puedes responder con:') || trimmed.endsWith('puedes responder con:');
+  const endsWithPrompt =
+    trimmed.endsWith('Puedes responder con:') || trimmed.endsWith('puedes responder con:');
   return endsWithPrompt && afterBreakStartsWithBullets;
 };
 

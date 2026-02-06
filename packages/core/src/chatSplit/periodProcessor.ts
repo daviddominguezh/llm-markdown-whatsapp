@@ -1,12 +1,12 @@
 import {
-  SHORT_QUESTION_FRAGMENT_THRESHOLD,
-  SHORT_CHUNK_THRESHOLD,
   CURRENT_TEXT_SHORT_THRESHOLD,
   INDEX_OFFSET,
+  SHORT_CHUNK_THRESHOLD,
+  SHORT_QUESTION_FRAGMENT_THRESHOLD,
 } from './constants.js';
-import { smartTrim } from './textHelpers.js';
 import { isPositionInsideParentheses } from './positionHelpers.js';
 import type { SplitResult } from './splitProcessors.js';
+import { smartTrim } from './textHelpers.js';
 
 /** Protected range interface */
 interface ProtectedRange {

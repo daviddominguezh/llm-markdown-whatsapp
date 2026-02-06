@@ -1,20 +1,24 @@
-import { PERIOD_SPLIT_TEXT_THRESHOLD } from './splitConstants.js';
+import { processSectionBreaks } from './breakProcessor.js';
 import { ZERO } from './constants.js';
-import { removePeriodsAfterURLs } from './urlNormalization.js';
 import { normalizeInlineNumberedList, normalizeInlineProductCardList } from './listNormalization.js';
-import { normalizeSpanishPunctuation } from './punctuationNormalization.js';
-import { processIntroWithList, processQuestionWithList, processIntroWithLongParagraphs } from './splitProcessors.js';
-import { processProductCardLists } from './productCardProcessor.js';
 import { processListSection } from './listProcessor.js';
+import { mergeSmallChunks } from './mergeProcessor.js';
 import {
-  processLongParagraphsAfterIntro,
   processLongParagraphSequence,
+  processLongParagraphsAfterIntro,
   processMarkdownSection,
 } from './paragraphProcessor.js';
-import { processSectionBreaks } from './breakProcessor.js';
-import { processQuestionMarks } from './questionProcessor.js';
 import { processPeriodSplits } from './periodProcessor.js';
-import { mergeSmallChunks } from './mergeProcessor.js';
+import { processProductCardLists } from './productCardProcessor.js';
+import { normalizeSpanishPunctuation } from './punctuationNormalization.js';
+import { processQuestionMarks } from './questionProcessor.js';
+import { PERIOD_SPLIT_TEXT_THRESHOLD } from './splitConstants.js';
+import {
+  processIntroWithList,
+  processIntroWithLongParagraphs,
+  processQuestionWithList,
+} from './splitProcessors.js';
+import { removePeriodsAfterURLs } from './urlNormalization.js';
 
 /** Split result type for processor functions */
 interface SplitProcessorResult {
@@ -37,7 +41,10 @@ const runIntroAndListProcessors = (remainingText: string, chunks: string[]): Spl
 };
 
 /** Run content structure processors */
-const runContentStructureProcessors = (remainingText: string, chunks: string[]): SplitProcessorResult | null => {
+const runContentStructureProcessors = (
+  remainingText: string,
+  chunks: string[]
+): SplitProcessorResult | null => {
   const productCardResult = processProductCardLists(remainingText, chunks);
   if (productCardResult.splitFound) return productCardResult;
 
@@ -128,7 +135,10 @@ export const splitChatText = (text: string | null | undefined): string[] => {
       continue;
     }
 
-    const { splitFound: qpSplitFound, newRemainingText: qpNewText } = runQuestionAndPeriodProcessors(remainingText, chunks);
+    const { splitFound: qpSplitFound, newRemainingText: qpNewText } = runQuestionAndPeriodProcessors(
+      remainingText,
+      chunks
+    );
 
     if (qpSplitFound) {
       remainingText = qpNewText;

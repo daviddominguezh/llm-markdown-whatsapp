@@ -26,7 +26,11 @@ const startsWithMarkdownHeader = (text: string): boolean => /^(?:\*[^*\n]+\*|_[^
 const startsWithBullet = (text: string): boolean => /^[\-•]\s+/v.test(text.trim());
 
 /** Determine end index based on content after double newline */
-const determineEndIndex = (afterDoubleNewline: string, doubleNewlineIndex: number, defaultEndIndex: number): number => {
+const determineEndIndex = (
+  afterDoubleNewline: string,
+  doubleNewlineIndex: number,
+  defaultEndIndex: number
+): number => {
   if (startsWithMarkdownHeader(afterDoubleNewline)) {
     return doubleNewlineIndex;
   }
@@ -61,7 +65,11 @@ export const findMarkdownSection = (text: string): MarkdownSectionResult | null 
   const endIndex =
     doubleNewlineIndex === NOT_FOUND
       ? defaultEndIndex
-      : determineEndIndex(afterHeader.substring(doubleNewlineIndex + DOUBLE_NEWLINE_LENGTH), doubleNewlineIndex, defaultEndIndex);
+      : determineEndIndex(
+          afterHeader.substring(doubleNewlineIndex + DOUBLE_NEWLINE_LENGTH),
+          doubleNewlineIndex,
+          defaultEndIndex
+        );
 
   const content = afterHeader.substring(ZERO, endIndex);
   const fullSection = matchedText + content;
@@ -149,7 +157,9 @@ const processNumberedList = (lines: string[]): number => {
     if (action === 'break') break;
   }
 
-  return state.endLineIndex >= ZERO ? lines.slice(ZERO, state.endLineIndex + INCREMENT).join('\n').length : ZERO;
+  return state.endLineIndex >= ZERO
+    ? lines.slice(ZERO, state.endLineIndex + INCREMENT).join('\n').length
+    : ZERO;
 };
 
 /** Bullet list state */

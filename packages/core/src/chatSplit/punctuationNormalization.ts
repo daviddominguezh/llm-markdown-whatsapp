@@ -73,8 +73,16 @@ const getPrevCharFromInfo = (text: string, prevInfo: PrevCharInfo): string =>
   prevInfo.index >= ZERO ? (getCharAt(text, prevInfo.index) ?? '') : '';
 
 /** Check if position should skip processing */
-const shouldSkipProcessing = (prevInfo: PrevCharInfo, prevChar: string, text: string, markIndex: number): boolean =>
-  prevInfo.index < ZERO || isSentenceEnd(prevChar) || prevInfo.foundLineBreak || !hasLetterBefore(text, markIndex);
+const shouldSkipProcessing = (
+  prevInfo: PrevCharInfo,
+  prevChar: string,
+  text: string,
+  markIndex: number
+): boolean =>
+  prevInfo.index < ZERO ||
+  isSentenceEnd(prevChar) ||
+  prevInfo.foundLineBreak ||
+  !hasLetterBefore(text, markIndex);
 
 /**
  * Process a single mark occurrence in the text
@@ -94,7 +102,11 @@ const processMarkOccurrence = (text: string, markIndex: number): string => {
   if (shouldSkipProcessing(prevInfo, prevChar, text, markIndex)) return text;
 
   if (shouldChangeCaseForNextChar(nextChar)) {
-    return text.substring(ZERO, nextCharIndex) + nextChar.toLowerCase() + text.substring(nextCharIndex + INDEX_OFFSET);
+    return (
+      text.substring(ZERO, nextCharIndex) +
+      nextChar.toLowerCase() +
+      text.substring(nextCharIndex + INDEX_OFFSET)
+    );
   }
 
   return text;
