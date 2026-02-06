@@ -65,13 +65,13 @@ The library takes a markdown string and splits it into an array of smaller chunk
 ## Quickstart
 
 ```bash
-npm install @llm-markdown-whatsapp/core
+npm install @llm-markdown-whatsapp
 ```
 
 ### Basic Usage
 
 ```typescript
-import { splitChatText } from '@llm-markdown-whatsapp/core';
+import { splitChatText } from '@llm-markdown-whatsapp';
 
 const llmResponse = 'Thanks for reaching out. I understand your situation and I want to help you resolve it in the best way possible. You can send your product back at no extra cost. Would you prefer a full refund or an exchange for a different model?';
 
@@ -187,7 +187,7 @@ Splits a markdown text string into an array of chat-ready chunks.
 - Returns `[]` for `null`, `undefined`, or empty string.
 
 ```typescript
-import { splitChatText } from '@llm-markdown-whatsapp/core';
+import { splitChatText } from '@llm-markdown-whatsapp';
 
 const chunks = splitChatText(llmMarkdownText);
 ```
