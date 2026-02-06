@@ -62,50 +62,6 @@ The library takes a markdown string and splits it into an array of smaller chunk
 | **Markdown Section Support**  | Splits at markdown headers (`*Title*` or `_Title_`) as natural boundaries      |
 | **Zero Configuration**        | Single function, no setup required—just pass text, get chunks                  |
 
-## Architecture
-
-```mermaid
-flowchart TB
-    subgraph Input["Input"]
-        T["LLM markdown text"]
-    end
-
-    Input --> Pre
-
-    subgraph Pre["Pre-processing"]
-        direction LR
-        A["Normalize<br/>inline lists"]
-        B["Normalize<br/>product cards"]
-        C["Remove periods<br/>after URLs"]
-    end
-
-    Pre --> Processors
-
-    subgraph Processors["Processor Chain (priority order)"]
-        direction TB
-        P1["Intro + List<br/>Question + List<br/>Intro + Long Paragraphs"]
-        P2["Product Cards<br/>List Sections<br/>Long Paragraphs"]
-        P3["Markdown Sections<br/>Section Breaks (double newlines)"]
-        P4["Question Marks<br/>Period Splits"]
-    end
-
-    Processors --> Post
-
-    subgraph Post["Post-processing"]
-        direction LR
-        D["Merge small<br/>chunks"]
-        E["Normalize Spanish<br/>punctuation"]
-    end
-
-    Post --> Output
-
-    subgraph Output["Output"]
-        O["string[ ] — array of chat-ready chunks"]
-    end
-```
-
----
-
 ## Quickstart
 
 ```bash
@@ -117,62 +73,58 @@ npm install @llm-markdown-whatsapp/core
 ```typescript
 import { splitChatText } from '@llm-markdown-whatsapp/core';
 
-const llmResponse = 'Gracias por contactarnos. Entiendo tu situación y quiero ayudarte a resolverla de la mejor manera. Puedes enviar tu producto de vuelta sin costo adicional. ¿Prefieres un reembolso completo o un intercambio por otro modelo?';
+const llmResponse = 'Thanks for reaching out. I understand your situation and I want to help you resolve it in the best way possible. You can send your product back at no extra cost. Would you prefer a full refund or an exchange for a different model?';
 
 const chunks = splitChatText(llmResponse);
+console.log(chunks);
 // [
-//   'Gracias por contactarnos.',
-//   'Entiendo tu situación y quiero ayudarte a resolverla de la mejor manera.',
-//   'Puedes enviar tu producto de vuelta sin costo adicional.',
-//   '¿Prefieres un reembolso completo o un intercambio por otro modelo?',
+//   'Thanks for reaching out.',
+//   'I understand your situation and I want to help you resolve it in the best way possible.',
+//   'You can send your product back at no extra cost.',
+//   'Would you prefer a full refund or an exchange for a different model?',
 // ]
-
-// Send each chunk as a separate WhatsApp message
-for (const chunk of chunks) {
-  await sendWhatsAppMessage(chunk);
-}
 ```
 
 ### Lists Stay Together
 
 ```typescript
-const llmResponse = `Encontré estas opciones:
+const llmResponse = `I found these options:
 
-- Nike Pegasus Plus – Zapatillas de alto rendimiento para maratones y running, con amortiguación ZoomX Foam y parte superior Flyknit que se adapta al pie. Disponibles en negro y en una combinación multicolor.
-- Nike Air Max 90 – Modelo clásico con suela tipo waffle y la icónica amortiguación Air visible, en tonos neutros como hueso claro/oliva/gris universitario.
-¿Cuál de estos modelos te interesa más? 😊`;
+- Nike Pegasus Plus – High-performance running shoes for marathons and daily runs, featuring ZoomX Foam cushioning and a Flyknit upper that adapts to your foot. Available in black and a multicolor combination.
+- Nike Air Max 90 – Classic model with a waffle sole and the iconic visible Air cushioning, in neutral tones like light bone/olive/university grey.
+Which of these models interests you the most? 😊`;
 
 const chunks = splitChatText(llmResponse);
 // [
-//   'Encontré estas opciones:',
-//   '- Nike Pegasus Plus – Zapatillas de alto rendimiento para maratones...',
-//   '- Nike Air Max 90 – Modelo clásico con suela tipo waffle...',
-//   '¿Cuál de estos modelos te interesa más? 😊',
+//   'I found these options:',
+//   '- Nike Pegasus Plus – High-performance running shoes for marathons...',
+//   '- Nike Air Max 90 – Classic model with a waffle sole...',
+//   'Which of these models interests you the most? 😊',
 // ]
 ```
 
 ### Product Cards Split Per Card
 
 ```typescript
-const llmResponse = `Encontré estas opciones:
+const llmResponse = `I found these options:
 
-1. 🛍️  Zapatillas Pegasus Plus: 💵 $1.015.000
-📏 Color: Negro, Azul glacial/Espuma menta/Verde impacto/Negro.
-📏 Talla Calzado: 43, 41, 38.
-✅ Ultraligeras, con amortiguación ZoomX y gran transpirabilidad.
+1. 🛍️  Pegasus Plus Shoes: 💵 $1.015.000
+📏 Color: Black, Glacier Blue/Mint Foam/Impact Green/Black.
+📏 Shoe Size: 43, 41, 38.
+✅ Ultra-lightweight, with ZoomX cushioning and great breathability.
 
-2. 🛍️  Zapaillas ISPA Sense: 💵 $804.900
-📏 Talla Calzado: 38, 39, 40, 41, 42, 43.
-✅ Estilo casual con buena comodidad para uso diario.
+2. 🛍️  ISPA Sense Shoes: 💵 $804.900
+📏 Shoe Size: 38, 39, 40, 41, 42, 43.
+✅ Casual style with great comfort for daily use.
 
-¿Cuál de estos productos te gusta?`;
+Which of these products do you like?`;
 
 const chunks = splitChatText(llmResponse);
 // [
-//   'Encontré estas opciones:',
-//   '🛍️  Zapatillas Pegasus Plus: 💵 $1.015.000\n📏 Color: ...\n✅ Ultraligeras...',
-//   '🛍️  Zapaillas ISPA Sense: 💵 $804.900\n📏 Talla Calzado: ...\n✅ Estilo casual...',
-//   '¿Cuál de estos productos te gusta?',
+//   'I found these options:',
+//   '🛍️  Pegasus Plus Shoes: 💵 $1.015.000\n📏 Color: ...\n✅ Ultra-lightweight...',
+//   '🛍️  ISPA Sense Shoes: 💵 $804.900\n📏 Shoe Size: ...\n✅ Casual style...',
+//   'Which of these products do you like?',
 // ]
 ```
 
@@ -268,6 +220,52 @@ llm-markdown-whatsapp/
 │               └── splitConstants.ts        # Split-specific constants
 └── README.md
 ```
+
+
+
+## Architecture
+
+```mermaid
+flowchart TB
+    subgraph Input["Input"]
+        T["LLM markdown text"]
+    end
+
+    Input --> Pre
+
+    subgraph Pre["Pre-processing"]
+        direction LR
+        A["Normalize<br/>inline lists"]
+        B["Normalize<br/>product cards"]
+        C["Remove periods<br/>after URLs"]
+    end
+
+    Pre --> Processors
+
+    subgraph Processors["Processor Chain (priority order)"]
+        direction TB
+        P1["Intro + List<br/>Question + List<br/>Intro + Long Paragraphs"]
+        P2["Product Cards<br/>List Sections<br/>Long Paragraphs"]
+        P3["Markdown Sections<br/>Section Breaks (double newlines)"]
+        P4["Question Marks<br/>Period Splits"]
+    end
+
+    Processors --> Post
+
+    subgraph Post["Post-processing"]
+        direction LR
+        D["Merge small<br/>chunks"]
+        E["Normalize Spanish<br/>punctuation"]
+    end
+
+    Post --> Output
+
+    subgraph Output["Output"]
+        O["string[ ] — array of chat-ready chunks"]
+    end
+```
+
+---
 
 ## Contributing
 
