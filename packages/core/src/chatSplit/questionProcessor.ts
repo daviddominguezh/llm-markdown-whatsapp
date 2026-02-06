@@ -46,7 +46,7 @@ const getLastElement = <T>(arr: T[]): T | undefined => {
 /**
  * Handles long question splitting
  */
-function handleLongQuestion(
+export function handleLongQuestion(
   remainingText: string,
   chunks: string[],
   questionPart: string,
@@ -76,7 +76,7 @@ function handleLongQuestion(
 /**
  * Handles short question splitting
  */
-function handleShortQuestion(
+export function handleShortQuestion(
   remainingText: string,
   chunks: string[],
   questionPart: string,
@@ -173,7 +173,7 @@ function processSingleQuestion(remainingText: string, chunks: string[], question
 /**
  * Processes contiguous questions
  */
-function processContiguousQuestions(
+export function processContiguousQuestions(
   remainingText: string,
   chunks: string[],
   lastQuestionIdx: number

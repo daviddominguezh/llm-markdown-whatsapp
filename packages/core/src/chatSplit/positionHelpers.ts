@@ -3,8 +3,8 @@ const INCREMENT = 1;
 const DECREMENT = 1;
 const ZERO = 0;
 
-/** Get character at position safely */
-const getCharAt = (text: string, position: number): string | undefined => text[position];
+/** Get character at position safely (charAt returns '' for out-of-range) */
+const getCharAt = (text: string, position: number): string => text.charAt(position);
 
 /** Update open count based on character */
 const updateOpenCount = (currentCount: number, char: string): number => {
@@ -48,7 +48,7 @@ const countOpenParentheses = (text: string, position: number): number => {
   let openCount = ZERO;
 
   for (let i = ZERO; i < position; i += INCREMENT) {
-    const char = getCharAt(text, i) ?? '';
+    const char = getCharAt(text, i);
     openCount = updateOpenCount(openCount, char);
   }
 

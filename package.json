@@ -1,17 +1,16 @@
 {
   "name": "@daviddh/llm-markdown-whatsapp",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": false,
-  "description": "Transforms Markdown into WhatsApp text format monorepo",
+  "description": "Transforms Markdown into WhatsApp text format",
   "keywords": [
     "llm",
     "whatsapp",
     "markdown",
+    "chat",
+    "split",
+    "chunking",
     "formatter",
-    "styling",
-    "utils",
-    "strs",
-    "strings",
     "converter",
     "transformer"
   ],
@@ -27,6 +26,27 @@
   "author": "David Dominguez",
   "type": "module",
   "main": "packages/core/dist/index.js",
+  "types": "packages/core/dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./packages/core/dist/index.d.ts",
+      "import": "./packages/core/dist/index.js",
+      "default": "./packages/core/dist/index.js"
+    },
+    "./core": {
+      "types": "./packages/core/dist/index.d.ts",
+      "import": "./packages/core/dist/index.js",
+      "default": "./packages/core/dist/index.js"
+    }
+  },
+  "files": [
+    "packages/core/dist",
+    "!packages/core/dist/__tests__",
+    "packages/core/src",
+    "!packages/core/src/__tests__",
+    "README.md",
+    "LICENSE"
+  ],
   "workspaces": [
     "packages/*"
   ],

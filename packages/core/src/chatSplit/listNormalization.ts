@@ -159,17 +159,7 @@ export const normalizeInlineProductCardList = (text: string): string => {
 
     const transformedProducts = productsContent.replace(
       /(?<before>[^\n])\s+(?<emoji>\p{Extended_Pictographic})/gv,
-      (match, before: string, emoji: string) => {
-        // Don't add newline if the emoji follows a number and period (like "1. 🛍️")
-        if (/\d\.\s*$/v.test(before)) {
-          return match;
-        }
-        // Don't add newline if there's no actual space (protects emoji sequences)
-        if (!/\s/v.test(match)) {
-          return match;
-        }
-        return `${before}\n${emoji}`;
-      }
+      (_match, before: string, emoji: string) => `${before}\n${emoji}`
     );
 
     result = beforeProducts + transformedProducts;
