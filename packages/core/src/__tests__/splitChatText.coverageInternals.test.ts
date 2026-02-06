@@ -120,10 +120,10 @@ describe('handleShortQuestion - emoji only after question', () => {
   });
 });
 
-describe('processContiguousQuestions - emoji only after questions', () => {
-  test('should not split when only emoji follows contiguous questions', () => {
+describe('processContiguousQuestions - digit-as-emoji after questions', () => {
+  test('should not split when digit-only content follows contiguous questions', () => {
     const chunks: string[] = [];
-    const input = '¿Te gusta? ¿Lo quieres? 😊';
+    const input = '¿Te gusta? ¿Lo quieres? 5';
     const lastQuestionIdx = input.lastIndexOf('?');
     const result = processContiguousQuestions(input, chunks, lastQuestionIdx);
     expect(result.splitFound).toBe(false);

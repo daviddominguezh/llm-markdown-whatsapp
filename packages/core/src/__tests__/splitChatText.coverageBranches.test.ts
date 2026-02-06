@@ -15,12 +15,14 @@ describe('Period processor - period followed by whitespace only', () => {
   });
 });
 
-describe('List normalization - question mark before list number', () => {
-  test('should handle inline list where question mark precedes first item', () => {
-    const input = '¿Cuál prefieres? 1. Ciudad A 2. Ciudad B 3. Ciudad C';
+describe('List normalization - punctuation mark before list number', () => {
+  test('should handle inline list where punctuation immediately precedes item number', () => {
+    const input = 'Datos: 1. Nombre !2. Email 3. Cédula';
     const result = splitChatText(input);
-    const hasContent = result.some((chunk) => chunk.includes('1. Ciudad A'));
+    const hasContent = result.some((chunk) => chunk.includes('Nombre'));
     expect(hasContent).toBe(true);
+    const hasEmail = result.some((chunk) => chunk.includes('Email'));
+    expect(hasEmail).toBe(true);
   });
 });
 
