@@ -26,21 +26,20 @@
   "license": "MIT",
   "author": "David Dominguez",
   "type": "module",
-  "main": "jest.config.js",
+  "main": "packages/core/dist/index.js",
   "workspaces": [
     "packages/*"
   ],
   "scripts": {
     "typecheck": "tsc -b",
-    "lint": "npx eslint . --ext .ts",
-    "format": "npx prettier --write \"**/*.{js,ts,json}\"",
+    "lint": "eslint .",
+    "format": "prettier --write \"**/*.{js,ts,json}\"",
     "check": "npm run format && npm run lint && npm run typecheck",
     "build": "npm run build --workspaces",
     "build:core": "npm run build -w @llm-markdown-whatsapp/core",
     "test": "npm run test --workspaces --if-present",
     "test:core": "npm run test -w @llm-markdown-whatsapp/core"
   },
-
   "devDependencies": {
     "@eslint/js": "^9.28.0",
     "@trivago/prettier-plugin-sort-imports": "^5.2.2",
