@@ -20,7 +20,7 @@ export const COMBINED_LENGTH_THRESHOLD = 110;
 export const SHORT_QUESTION_FRAGMENT_THRESHOLD = 35;
 
 /** Minimum content before section break to split */
-export const MIN_CONTENT_BEFORE_BREAK = 50;
+export const MIN_CONTENT_BEFORE_BREAK = 45;
 
 /** Short chunk threshold for anti-double-split */
 export const SHORT_CHUNK_THRESHOLD = 50;

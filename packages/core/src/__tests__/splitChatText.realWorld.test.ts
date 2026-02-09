@@ -116,3 +116,32 @@ describe('Real-world - product with bullet points', () => {
     expect(countBulletLines(questionChunk ?? '')).toBe(RESPONSE_BULLET_COUNT);
   });
 });
+
+describe('Real-world - sales summary with markdown headers and store data', () => {
+  test('should split sales summary into meaningful chunks', () => {
+    const str = `Here's yesterday's sales summary (Sunday, Feb 8):
+
+*Total: $4,879.36* across 318 transactions
+
+*By store:*
+
+*Dolphin Mall* -- $1,852.69 (175 transactions)
+*Florida Mall* -- $1,613.66 (32 transactions)
+*The Falls Mall* -- $1,413.01 (111 transactions)
+
+Notable: Florida Mall had the highest average ticket at ~$50.43, while Dolphin Mall led in volume. Need any more details?`;
+
+    const result = splitChatText(str);
+
+    expect(result).toEqual([
+      "Here's yesterday's sales summary (Sunday, Feb 8):",
+      `*Total: $4,879.36* across 318 transactions
+
+*By store:*`,
+      `*Dolphin Mall* -- $1,852.69 (175 transactions)
+*Florida Mall* -- $1,613.66 (32 transactions)
+*The Falls Mall* -- $1,413.01 (111 transactions)`,
+      'Notable: Florida Mall had the highest average ticket at ~$50.43, while Dolphin Mall led in volume. Need any more details?',
+    ]);
+  });
+});

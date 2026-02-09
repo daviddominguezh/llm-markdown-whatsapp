@@ -19,7 +19,7 @@ const DOUBLE_NEWLINE_OFFSET = 2;
 
 /** Check if double newline index is valid */
 const isValidDoubleNewlineIndex = (index: number): boolean =>
-  index !== NOT_FOUND && index > MIN_CONTENT_BEFORE_BREAK;
+  index !== NOT_FOUND && index >= MIN_CONTENT_BEFORE_BREAK;
 
 /** Check if text after break has markdown header */
 const hasMarkdownAfterBreak = (afterBreak: string): boolean =>
@@ -73,14 +73,27 @@ const shouldNotSplitAtBreak = (
   isResponsePromptWithBullets(beforeBreak, afterBreakStartsWithBullets) ||
   hasQuestionWithOptionsPattern(afterBreak);
 
-/** Processes section breaks (double newlines) */
-export function processSectionBreaks(remainingText: string, chunks: string[]): SplitResult {
-  const doubleNewlineIndex = remainingText.indexOf('\n\n');
+/** Find all double newline indices in text */
+const findDoubleNewlineIndices = (text: string): number[] => {
+  const indices: number[] = [];
+  let searchFrom = ZERO;
 
-  if (!isValidDoubleNewlineIndex(doubleNewlineIndex)) {
-    return { splitFound: false, newRemainingText: remainingText };
+  while (searchFrom < text.length) {
+    const index = text.indexOf('\n\n', searchFrom);
+    if (index === NOT_FOUND) break;
+    indices.push(index);
+    searchFrom = index + DOUBLE_NEWLINE_OFFSET;
   }
 
+  return indices;
+};
+
+/** Try splitting at a specific double newline position */
+const trySplitAtBreak = (
+  remainingText: string,
+  doubleNewlineIndex: number,
+  chunks: string[]
+): SplitResult | null => {
   const beforeBreak = remainingText.substring(ZERO, doubleNewlineIndex);
   const afterBreak = remainingText.substring(doubleNewlineIndex + DOUBLE_NEWLINE_OFFSET);
 
@@ -97,6 +110,19 @@ export function processSectionBreaks(remainingText: string, chunks: string[]): S
       chunks.push(beforeBreak);
       return { splitFound: true, newRemainingText: afterBreak };
     }
+  }
+
+  return null;
+};
+
+/** Processes section breaks (double newlines) */
+export function processSectionBreaks(remainingText: string, chunks: string[]): SplitResult {
+  const indices = findDoubleNewlineIndices(remainingText);
+  const validIndices = indices.filter(isValidDoubleNewlineIndex);
+
+  for (const index of validIndices) {
+    const result = trySplitAtBreak(remainingText, index, chunks);
+    if (result !== null) return result;
   }
 
   return { splitFound: false, newRemainingText: remainingText };
