@@ -59,6 +59,7 @@ The library takes a markdown string and splits it into an array of smaller chunk
 | **Abbreviation Awareness**    | Protects periods in `etc.`, `Dr.`, `D.C.`, `S.A.`, version numbers            |
 | **Spanish Punctuation**       | Normalizes capitalization after mid-sentence ¿ and ¡ marks                     |
 | **Small Chunk Merging**       | Prevents tiny fragments by merging small chunks with adjacent ones             |
+| **Markdown Table Support**    | Converts tables to monospace blocks (small) or row-per-chunk format (wide)     |
 | **Markdown Section Support**  | Splits at markdown headers (`*Title*` or `_Title_`) as natural boundaries      |
 | **Zero Configuration**        | Single function, no setup required—just pass text, get chunks                  |
 
@@ -125,6 +126,46 @@ const chunks = splitChatText(llmResponse);
 //   '🛍️  Pegasus Plus Shoes: 💵 $1.015.000\n📏 Color: ...\n✅ Ultra-lightweight...',
 //   '🛍️  ISPA Sense Shoes: 💵 $804.900\n📏 Shoe Size: ...\n✅ Casual style...',
 //   'Which of these products do you like?',
+// ]
+```
+
+### Markdown Tables
+
+Tables are automatically detected and converted into WhatsApp-friendly formats. Small tables render as monospace blocks, while wide tables split each row into its own chunk.
+
+**Small table (monospace format)** — when total width is ≤ 45 characters:
+
+```typescript
+const llmResponse = `Here are the sizes:
+
+| Size | Stock |
+| --- | --- |
+| 38 | 5 |
+| 40 | 12 |
+| 42 | 3 |`;
+
+const chunks = splitChatText(llmResponse);
+// [
+//   'Here are the sizes:',
+//   '```\nSize  Stock\n38    5\n40    12\n42    3\n```',
+// ]
+```
+
+**Wide table (row-per-chunk format)** — when total width exceeds 45 characters:
+
+```typescript
+const llmResponse = `Here is the comparison:
+
+| Model | Description | Price |
+| --- | --- | --- |
+| Nike Pegasus | Lightweight running shoe with ZoomX | $1.015.000 |
+| Nike Air Max | Classic design with visible Air unit | $804.900 |`;
+
+const chunks = splitChatText(llmResponse);
+// [
+//   'Here is the comparison:',
+//   '*Model:* Nike Pegasus\n*Description:* Lightweight running shoe with ZoomX\n*Price:* $1.015.000',
+//   '*Model:* Nike Air Max\n*Description:* Classic design with visible Air unit\n*Price:* $804.900',
 // ]
 ```
 
