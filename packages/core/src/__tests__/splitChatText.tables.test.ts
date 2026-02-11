@@ -246,3 +246,36 @@ describe('Table - multiple rows Option B', () => {
     expect(result[SECOND]).toContain('*Producto:* Adidas Ultra');
   });
 });
+
+describe('Table - rows with fewer columns than header', () => {
+  test('should pad missing cells with empty values in Option A', () => {
+    const input = ['| Name | City | Age |', '| --- | --- | --- |', '| John ||'].join('\n');
+    const result = splitChatText(input);
+    expect(result).toHaveLength(SINGLE_CHUNK);
+    expect(result[FIRST]).toContain('```');
+    expect(result[FIRST]).toContain('John');
+  });
+
+  test('should pad missing cells with empty values in Option B', () => {
+    const input = [
+      '| Feature | Very Long Detailed Description Column | Extra Column Name |',
+      '| --- | --- | --- |',
+      '| Value ||',
+    ].join('\n');
+    const result = splitChatText(input);
+    expect(result).toHaveLength(SINGLE_CHUNK);
+    expect(result[FIRST]).toContain('*Feature:* Value');
+    expect(result[FIRST]).toContain('*Very Long Detailed Description Column:*');
+    expect(result[FIRST]).toContain('*Extra Column Name:*');
+  });
+});
+
+describe('Table - single column rejection', () => {
+  test('should not detect a single-column table', () => {
+    const input = ['| OnlyCol |', '| --- |', '| data |'].join('\n');
+    const result = splitChatText(input);
+    expect(result).toHaveLength(SINGLE_CHUNK);
+    expect(result[FIRST]).not.toContain('```');
+    expect(result[FIRST]).not.toContain('*OnlyCol:*');
+  });
+});

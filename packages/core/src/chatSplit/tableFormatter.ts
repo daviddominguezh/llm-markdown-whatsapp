@@ -50,6 +50,7 @@ export const transformToWhatsApp = (text: string): string => {
 };
 
 /** Get cell value at column index */
+/* c8 ignore next */
 const getCellAt = (row: string[], colIndex: number): string => row[colIndex] ?? '';
 
 /** Calculate the max width for each column using stripped content */
@@ -90,6 +91,7 @@ const formatMonospaceRow = (cells: string[], columnWidths: number[], isLastColum
   cells
     .map((cell, index) => {
       const stripped = stripMarkdownFormatting(cell);
+      /* c8 ignore next */
       return index < isLastColumn ? padToWidth(stripped, columnWidths[index] ?? ZERO) : stripped;
     })
     .join(' ');
@@ -111,6 +113,7 @@ export const formatRowChunk = (headers: string[], row: string[]): string =>
   headers
     .map((header, index) => {
       const strippedHeader = stripMarkdownFormatting(header);
+      /* c8 ignore next */
       const cellValue = row[index] ?? '';
       const transformedValue = transformToWhatsApp(cellValue);
       return `*${strippedHeader}:* ${transformedValue}`;

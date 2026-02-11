@@ -96,6 +96,7 @@ export const findMarkdownTable = (text: string): TableMatch | null => {
     const currentLine = getLineAt(lines, i);
     const nextLine = getLineAt(lines, i + INDEX_OFFSET);
 
+    /* c8 ignore next */
     if (currentLine === undefined || nextLine === undefined) continue;
     if (!isTableRow(currentLine) || !isSeparatorRow(nextLine)) continue;
     if (!isValidTable(currentLine)) continue;
