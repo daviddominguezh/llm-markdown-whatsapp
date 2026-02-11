@@ -43,6 +43,12 @@ export const FIRST_NEWLINE_SEARCH_LIMIT = 100;
 /** Maximum distance after question for response options check */
 export const DOUBLE_NEWLINE_DISTANCE_THRESHOLD = 5;
 
+/** Maximum real width for monospaced table format (Option A) */
+export const TABLE_MONOSPACE_WIDTH_THRESHOLD = 45;
+
+/** Width of separator between table columns */
+export const COLUMN_SEPARATOR_WIDTH = 1;
+
 /** Index offset for 1-based counting */
 export const INDEX_OFFSET = 1;
 

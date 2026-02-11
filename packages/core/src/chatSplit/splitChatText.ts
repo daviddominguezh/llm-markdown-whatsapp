@@ -18,6 +18,7 @@ import {
   processIntroWithLongParagraphs,
   processQuestionWithList,
 } from './splitProcessors.js';
+import { processMarkdownTable } from './tableProcessor.js';
 import { removePeriodsAfterURLs } from './urlNormalization.js';
 
 /** Split result type for processor functions */
@@ -45,6 +46,9 @@ const runContentStructureProcessors = (
   remainingText: string,
   chunks: string[]
 ): SplitProcessorResult | null => {
+  const tableResult = processMarkdownTable(remainingText, chunks);
+  if (tableResult.splitFound) return tableResult;
+
   const productCardResult = processProductCardLists(remainingText, chunks);
   if (productCardResult.splitFound) return productCardResult;
 
