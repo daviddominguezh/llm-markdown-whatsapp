@@ -266,45 +266,9 @@ llm-markdown-whatsapp/
 
 ## Architecture
 
-```mermaid
-flowchart TB
-    subgraph Input["Input"]
-        T["LLM markdown text"]
-    end
-
-    Input --> Pre
-
-    subgraph Pre["Pre-processing"]
-        direction LR
-        A["Normalize<br/>inline lists"]
-        B["Normalize<br/>product cards"]
-        C["Remove periods<br/>after URLs"]
-    end
-
-    Pre --> Processors
-
-    subgraph Processors["Processor Chain (priority order)"]
-        direction TB
-        P1["Intro + List<br/>Question + List<br/>Intro + Long Paragraphs"]
-        P2["Product Cards<br/>List Sections<br/>Long Paragraphs"]
-        P3["Markdown Sections<br/>Section Breaks (double newlines)"]
-        P4["Question Marks<br/>Period Splits"]
-    end
-
-    Processors --> Post
-
-    subgraph Post["Post-processing"]
-        direction LR
-        D["Merge small<br/>chunks"]
-        E["Normalize Spanish<br/>punctuation"]
-    end
-
-    Post --> Output
-
-    subgraph Output["Output"]
-        O["string[ ] — array of chat-ready chunks"]
-    end
-```
+<p align="center">
+  <img src="docs/diagram.png" alt="Architecture diagram showing the splitChatText pipeline: pre-processing, processor chain, and post-processing" />
+</p>
 
 ---
 
